@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.home_screen
 import org.jetbrains.compose.resources.StringResource
-import ui.screen.HomeScreen
+import ui.screen.home.HomeScreen
 
 @Composable
 fun DynamisApp(

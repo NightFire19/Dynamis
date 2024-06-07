@@ -43,6 +43,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.composeVM)
             implementation(libs.jetbrains.navigation.compose)
         }
     }
