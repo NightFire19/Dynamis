@@ -9,8 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import kotlinproject.composeapp.generated.resources.Res
-import kotlinproject.composeapp.generated.resources.home_screen
+import dynamis.composeapp.generated.resources.Res
+import dynamis.composeapp.generated.resources.home_screen
 import org.jetbrains.compose.resources.StringResource
 import ui.screen.home.HomeScreen
 
