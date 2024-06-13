@@ -13,6 +13,6 @@ fun HomeScreen() {
     val viewModel = koinInject<HomeViewModel>()
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("Current viewmodel value is: ${viewModel.count.value}")
+        Text("${viewModel.temperature.value}")
     }
 }

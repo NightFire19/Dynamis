@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val repository: Repository
 ): ViewModel() {
-    private val _count = mutableStateOf("")
-    val count: State<String> = _count
+    private val _temperature = mutableStateOf(0.0)
+    val temperature: State<Double> = _temperature
 
     init {
         callApi()
@@ -22,11 +22,19 @@ class HomeViewModel(
 
     private fun callApi() {
         viewModelScope.launch {
-            repository.getIt().flowOn(Dispatchers.IO).collect{
-                if (it.isSuccess) {
-                    _count.value = it.getOrNull()?.title ?: "No title found..."
+            repository.getWeather().flowOn(Dispatchers.IO).collect{ result ->
+                if (result.isSuccess) {
+                    result.map { forecast ->
+                        _temperature.value = forecast.current?.temperature2m?: 0.0
+                    }
+                }
+                else if (result.isFailure) {
+                    _temperature.value = 404.0
                 }
             }
         }
     }
+
+
+
 }
