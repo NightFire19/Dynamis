@@ -1,4 +1,4 @@
-package org.example.project
+package org.xuan.project
 
 import App
 import android.os.Bundle
