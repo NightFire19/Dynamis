@@ -16,6 +16,8 @@ class HomeViewModel(
     private val _temperature = mutableStateOf(0.0)
     val temperature: State<Double> = _temperature
 
+    private val _error = mutableStateOf("")
+    val error: State<String> = _error
     init {
         callApi()
     }
@@ -30,6 +32,7 @@ class HomeViewModel(
                 }
                 else if (result.isFailure) {
                     _temperature.value = 404.0
+                    _error.value = result.exceptionOrNull()?.message.toString()
                 }
             }
         }

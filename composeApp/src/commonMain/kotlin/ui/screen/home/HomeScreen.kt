@@ -14,5 +14,6 @@ fun HomeScreen() {
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text("${viewModel.temperature.value}")
+        Text(viewModel.error.value)
     }
 }

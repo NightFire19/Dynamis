@@ -2,7 +2,17 @@ package data.source.api
 
 object ApiConstants {
     const val FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
-
+    object ParameterNames {
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
+        const val CURRENT = "current"
+        const val HOURLY = "hourly"
+        const val DAILY = "daily"
+        const val TEMPERATURE_UNIT = "temperature_unit"
+        const val WIND_SPEED_UNIT = "wind_speed_unit"
+        const val PRECIPITATION_UNIT = "precipitation_unit"
+        const val TIMEZONE = "timezone"
+    }
     object ParameterValues {
         const val CURRENT_VALUES =
             "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m"
