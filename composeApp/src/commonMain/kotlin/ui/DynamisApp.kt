@@ -23,7 +23,6 @@ fun DynamisApp(
         startDestination = DynamisScreen.Home.name,
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
         composable(route = DynamisScreen.Home.name) {
             HomeScreen()

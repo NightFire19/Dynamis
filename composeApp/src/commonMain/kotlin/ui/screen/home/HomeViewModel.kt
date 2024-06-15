@@ -5,36 +5,56 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import domain.Repository
+import domain.model.ForecastResponse
+import domain.model.WeatherUIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.math.roundToInt
 
 class HomeViewModel(
     private val repository: Repository
 ): ViewModel() {
-    private val _temperature = mutableStateOf(0.0)
-    val temperature: State<Double> = _temperature
-
-    private val _error = mutableStateOf("")
-    val error: State<String> = _error
+    private val _weatherUiState = mutableStateOf(WeatherUIState())
+    val weatherUIState: State<WeatherUIState> = _weatherUiState
     init {
-        callApi()
+        getWeather()
     }
 
-    private fun callApi() {
+    private fun getWeather() {
         viewModelScope.launch {
             repository.getWeather().flowOn(Dispatchers.IO).collect{ result ->
                 if (result.isSuccess) {
-                    result.map { forecast ->
-                        _temperature.value = forecast.current?.temperature2m?: 0.0
-                    }
+                    mapForecastResponseToUIState(result.getOrThrow())
                 }
                 else if (result.isFailure) {
-                    _temperature.value = 404.0
-                    _error.value = result.exceptionOrNull()?.message.toString()
+
                 }
             }
+        }
+    }
+
+    private fun mapForecastResponseToUIState(forecastResponse: ForecastResponse) {
+        _weatherUiState.value =
+            WeatherUIState(
+                time = extractTimeFromISO8601(forecastResponse.current?.time) ?: "No time found",
+                currentTemperature = "${(forecastResponse.current?.temperature2m ?: 0.0).roundToInt()}${forecastResponse.currentUnits?.temperature2m}",
+                currentWeatherCode = forecastResponse.current?.weatherCode ?: 0,
+            )
+    }
+
+    private fun extractTimeFromISO8601(iso8601String: String?): String? {
+        iso8601String?.let {
+            val instant = Instant.parse("$iso8601String:00Z")
+            val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
+            val seconds = if (localDateTime.second != 0) ":${localDateTime.second}" else "" // Handle missing seconds
+            return "${localDateTime.hour}:${localDateTime.minute}$seconds"
+        } ?: run {
+            return null
         }
     }
 

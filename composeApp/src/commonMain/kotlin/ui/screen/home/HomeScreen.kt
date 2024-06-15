@@ -13,7 +13,7 @@ fun HomeScreen() {
     val viewModel = koinInject<HomeViewModel>()
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("${viewModel.temperature.value}")
-        Text(viewModel.error.value)
+        Text(viewModel.weatherUIState.value.time)
+        Text("${viewModel.weatherUIState.value.currentTemperature}")
     }
 }
