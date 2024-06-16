@@ -15,5 +15,7 @@ fun HomeScreen() {
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(viewModel.weatherUIState.value.time)
         Text("${viewModel.weatherUIState.value.currentTemperature}")
+        Text("${viewModel.weatherUIState.value.todayHigh}")
+        Text("${viewModel.weatherUIState.value.todayLow}")
     }
 }
