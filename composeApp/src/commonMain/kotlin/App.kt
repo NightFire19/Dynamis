@@ -11,8 +11,6 @@ fun App() {
     KoinApplication(application = {
         modules(appModule())
     }) {
-        MaterialTheme {
-            DynamisApp()
-        }
+        DynamisApp()
     }
 }

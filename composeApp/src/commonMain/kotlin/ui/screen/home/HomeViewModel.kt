@@ -9,6 +9,9 @@ import domain.model.ForecastResponse
 import domain.model.WeatherUIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -21,6 +24,8 @@ import kotlin.math.roundToInt
 class HomeViewModel(
     private val repository: Repository
 ): ViewModel() {
+    private val _isShowing = MutableStateFlow(false)
+    val isShowing: StateFlow<Boolean> = _isShowing.asStateFlow()
     private val _weatherUiState = mutableStateOf(WeatherUIState())
     val weatherUIState: State<WeatherUIState> = _weatherUiState
     private var currentDateTime: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
@@ -53,6 +58,7 @@ class HomeViewModel(
                 todayHigh = "High: ${forecastResponse.daily?.temperature2mMax?.get(dateIndex)?.roundToInt() ?: 0}${forecastResponse.currentUnits?.temperature2m}",
                 todayLow = "Low: ${forecastResponse.daily?.temperature2mMin?.get(dateIndex)?.roundToInt() ?: 0}${forecastResponse.currentUnits?.temperature2m}"
             )
+        _isShowing.value = true
     }
 
     private fun extractTimeFromISO8601(iso8601String: String?): LocalDateTime {
