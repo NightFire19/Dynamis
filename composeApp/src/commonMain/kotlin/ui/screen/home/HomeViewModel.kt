@@ -66,6 +66,6 @@ class HomeViewModel(
 
     private fun findDateIndex(dateList: List<String>, targetDateTime:LocalDateTime): Int {
         val targetDate = targetDateTime.date.toString()
-        return dateList.indexOf(targetDate) + 1 // Add 1 to convert from zero-based index to one-based
+        return dateList.indexOf(targetDate)
     }
 }
