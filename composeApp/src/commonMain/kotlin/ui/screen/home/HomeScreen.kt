@@ -20,6 +20,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -32,7 +34,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen() {
     val viewModel = koinInject<HomeViewModel>()
@@ -92,8 +93,27 @@ fun HomeScreen() {
                         text = viewModel.weatherUIState.value.currentTemperature,
                         style = MaterialTheme.typography.h1
                     )
-                    Text(viewModel.weatherUIState.value.todayHigh)
-                    Text(viewModel.weatherUIState.value.todayLow)
+                    Row(modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.KeyboardArrowUp,
+                                "high temperature"
+                            )
+                            Text(viewModel.weatherUIState.value.todayHigh)
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.KeyboardArrowDown,
+                                "low temperature"
+                            )
+                            Text(viewModel.weatherUIState.value.todayLow)
+                        }
+                    }
                 }
             }
         }

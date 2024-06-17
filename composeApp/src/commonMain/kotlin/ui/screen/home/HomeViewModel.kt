@@ -55,8 +55,8 @@ class HomeViewModel(
                 time = currentDateTime.time.toString(),
                 currentTemperature = "${(forecastResponse.current?.temperature2m ?: 0.0).roundToInt()}${forecastResponse.currentUnits?.temperature2m}",
                 currentWeatherCode = forecastResponse.current?.weatherCode ?: 0,
-                todayHigh = "High: ${forecastResponse.daily?.temperature2mMax?.get(dateIndex)?.roundToInt() ?: 0}${forecastResponse.currentUnits?.temperature2m}",
-                todayLow = "Low: ${forecastResponse.daily?.temperature2mMin?.get(dateIndex)?.roundToInt() ?: 0}${forecastResponse.currentUnits?.temperature2m}"
+                todayHigh = "${forecastResponse.daily?.temperature2mMax?.get(dateIndex)?.roundToInt() ?: 0}${forecastResponse.currentUnits?.temperature2m}",
+                todayLow = "${forecastResponse.daily?.temperature2mMin?.get(dateIndex)?.roundToInt() ?: 0}${forecastResponse.currentUnits?.temperature2m}"
             )
         _isShowing.value = true
     }
