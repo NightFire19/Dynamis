@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.jordond.compass.Location
+import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.geocoder.placeOrNull
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.currentLocationOrNull
 import dev.jordond.compass.geolocation.mobile.MobileLocator
@@ -28,6 +30,7 @@ import kotlin.math.roundToInt
 class HomeViewModel(
     private val repository: Repository,
     private val geoLocator: Geolocator,
+    private val geocoder: Geocoder,
 ): ViewModel() {
     private val _isShowing = MutableStateFlow(false)
     val isShowing: StateFlow<Boolean> = _isShowing.asStateFlow()
@@ -45,6 +48,11 @@ class HomeViewModel(
                     latitude = location.coordinates.latitude,
                     longitude = location.coordinates.longitude,
                 )
+                geocoder.placeOrNull(coordinates = location.coordinates)?.let { place ->
+                    _weatherUiState.value = _weatherUiState.value.copy(
+                        locality = place.locality ?: ""
+                    )
+                }
             }
         }
     }

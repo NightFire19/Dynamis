@@ -2,6 +2,7 @@ package di
 
 import data.repo.RepositoryImplementation
 import data.source.api.ApiServiceImpl
+import dev.jordond.compass.geocoder.Geocoder
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.MobileGeolocator
 import domain.ApiService
@@ -47,4 +48,5 @@ val providesRepository = module {
 
 val providesGeoLocator = module {
     single<Geolocator> { MobileGeolocator() }
+    single<Geocoder> { Geocoder() }
 }

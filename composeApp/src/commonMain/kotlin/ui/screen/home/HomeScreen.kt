@@ -1,7 +1,6 @@
 package ui.screen.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -24,6 +23,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -58,7 +58,7 @@ fun HomeScreen() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Icon(
-                    Icons.Default.LocationOn,
+                    Icons.Rounded.LocationOn,
                     contentDescription = "Location",
                     modifier = Modifier
                         .size(64.dp)
@@ -84,6 +84,18 @@ fun HomeScreen() {
                 exit = fadeOut(animationSpec = tween(durationMillis = 500))
             ) {
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row {
+                        Icon(
+                            Icons.Default.LocationOn,
+                            contentDescription = "Location",
+                            modifier = Modifier
+                                .padding(8.dp)
+                        )
+                        Text(
+                            text = viewModel.weatherUIState.value.locality,
+                            style = MaterialTheme.typography.body1
+                        )
+                    }
                     Text(
                         text = viewModel.weatherUIState.value.time,
                         style = MaterialTheme.typography.caption
