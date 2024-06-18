@@ -52,6 +52,13 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.datetime)
+
+            implementation(libs.compass.geocoder)
+            implementation(libs.compass.geocoder.mobile)
+
+            // Geolocation
+            implementation(libs.compass.geolocation)
+            implementation(libs.compass.geolocation.mobile)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

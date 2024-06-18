@@ -4,6 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.jordond.compass.Location
+import dev.jordond.compass.geolocation.Geolocator
+import dev.jordond.compass.geolocation.currentLocationOrNull
+import dev.jordond.compass.geolocation.mobile.MobileLocator
 import domain.Repository
 import domain.model.ForecastResponse
 import domain.model.WeatherUIState
@@ -22,21 +26,38 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.math.roundToInt
 
 class HomeViewModel(
-    private val repository: Repository
+    private val repository: Repository,
+    private val geoLocator: Geolocator,
 ): ViewModel() {
     private val _isShowing = MutableStateFlow(false)
     val isShowing: StateFlow<Boolean> = _isShowing.asStateFlow()
     private val _weatherUiState = mutableStateOf(WeatherUIState())
     val weatherUIState: State<WeatherUIState> = _weatherUiState
     private var currentDateTime: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
-
     init {
-        getWeather()
+        getCurrentLocation()
     }
 
-    private fun getWeather() {
+    private fun getCurrentLocation() {
         viewModelScope.launch {
-            repository.getWeather().flowOn(Dispatchers.IO).collect{ result ->
+            geoLocator.currentLocationOrNull()?.let { location ->
+                getWeather(
+                    latitude = location.coordinates.latitude,
+                    longitude = location.coordinates.longitude,
+                )
+            }
+        }
+    }
+
+    private fun getWeather(
+        latitude: Double,
+        longitude: Double,
+    ) {
+        viewModelScope.launch {
+            repository.getWeather(
+                latitude = latitude,
+                longitude = longitude,
+            ).flowOn(Dispatchers.IO).collect{ result ->
                 if (result.isSuccess) {
                     mapForecastResponseToUIState(result.getOrThrow())
                 }
@@ -51,7 +72,7 @@ class HomeViewModel(
         currentDateTime = extractTimeFromISO8601(forecastResponse.current?.time)
         val dateIndex = findDateIndex(forecastResponse.daily?.time ?: emptyList(), currentDateTime)
         _weatherUiState.value =
-            WeatherUIState(
+            _weatherUiState.value.copy(
                 time = currentDateTime.time.toString(),
                 currentTemperature = "${(forecastResponse.current?.temperature2m ?: 0.0).roundToInt()}${forecastResponse.currentUnits?.temperature2m}",
                 currentWeatherCode = forecastResponse.current?.weatherCode ?: 0,

@@ -43,13 +43,16 @@ class ApiServiceImpl(private val httpClient: HttpClient) : ApiService {
             }
         }
 
-    override fun getWeather(): Flow<Result<ForecastResponse>> =
+    override fun getWeather(
+        latitude: Double,
+        longitude: Double
+    ): Flow<Result<ForecastResponse>> =
         flow {
             try {
                 val response = httpClient.get("https://api.open-meteo.com/v1/forecast") {
                     url {
-                        parameters.append(LATITUDE, "33.189189")
-                        parameters.append(LONGITUDE, "-96.649555")
+                        parameters.append(LATITUDE, latitude.toString())
+                        parameters.append(LONGITUDE, longitude.toString())
                         parameters.append(CURRENT, CURRENT_VALUES)
                         parameters.append(HOURLY, HOURLY_VALUES)
                         parameters.append(DAILY, DAILY_VALUES)

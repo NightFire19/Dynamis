@@ -10,13 +10,8 @@ import kotlinx.coroutines.flow.catch
 class RepositoryImplementation(
     private val apiService: ApiService
 ) : Repository {
-    override fun getIt(): Flow<Result<DataModel>> =
-        apiService.getThing().catch { e ->
-            emit(Result.failure(e))
-        }
-
-    override fun getWeather(): Flow<Result<ForecastResponse>> =
-        apiService.getWeather().catch { e ->
+    override fun getWeather(latitude: Double, longitude: Double): Flow<Result<ForecastResponse>> =
+        apiService.getWeather(latitude = latitude, longitude = longitude).catch { e ->
             emit(Result.failure(e))
         }
 }

@@ -6,5 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiService {
     fun getThing(): Flow<Result<DataModel>>
-    fun getWeather(): Flow<Result<ForecastResponse>>
+    fun getWeather(
+        latitude: Double,
+        longitude: Double
+    ): Flow<Result<ForecastResponse>>
 }

@@ -20,6 +20,7 @@ ktor = "2.3.11"
 coroutines = "1.8.0"
 org-jetbrains-kotlin-android = "2.0.0"
 date-time = "0.4.0"
+compass = "1.0.0"
 
 [libraries]
 jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
@@ -46,6 +47,16 @@ kotlin-serialization = {module = "io.ktor:ktor-serialization-kotlinx-json", vers
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 ktor-client-content-negotiation = {module = "io.ktor:ktor-client-content-negotiation", version.ref= "ktor"}
 kotlinx-datetime = {module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "date-time"}
+
+compass-autocomplete = { module = "dev.jordond.compass:autocomplete", version.ref = "compass" }
+compass-autocomplete-mobile = { module = "dev.jordond.compass:autocomplete-mobile", version.ref = "compass" }
+compass-autocomplete-geocoder-googlemaps = { module = "dev.jordond.compass:autocomplete-geocoder-googlemaps", version.ref = "compass" }
+compass-autocomplete-geocoder-mapbox = { module = "dev.jordond.compass:autocomplete-geocoder-mapbox", version.ref = "compass" }
+compass-geocoder = { module = "dev.jordond.compass:geocoder", version.ref = "compass" }
+compass-geocoder-mobile = { module = "dev.jordond.compass:geocoder-mobile", version.ref = "compass" }
+compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
+compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
+compass-permissions-mobile = { module = "dev.jordond.compass:permissions-mobile", version.ref = "compass" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

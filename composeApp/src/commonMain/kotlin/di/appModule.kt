@@ -2,6 +2,8 @@ package di
 
 import data.repo.RepositoryImplementation
 import data.source.api.ApiServiceImpl
+import dev.jordond.compass.geolocation.Geolocator
+import dev.jordond.compass.geolocation.MobileGeolocator
 import domain.ApiService
 import domain.Repository
 import org.koin.compose.viewmodel.dsl.viewModelOf
@@ -13,8 +15,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-
-fun appModule() : List<Module> = listOf(providesViewModel, providesHttpClient, providesApiService, providesRepository)
+fun appModule() : List<Module> = listOf(providesViewModel, providesHttpClient, providesApiService, providesRepository, providesGeoLocator)
 
 val providesViewModel = module {
     viewModelOf(::HomeViewModel)
@@ -42,4 +43,8 @@ val providesApiService = module {
 
 val providesRepository = module {
     single<Repository> { RepositoryImplementation(get()) }
+}
+
+val providesGeoLocator = module {
+    single<Geolocator> { MobileGeolocator() }
 }
